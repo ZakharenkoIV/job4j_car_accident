@@ -8,11 +8,13 @@ import ru.job4j.accident.repository.AccidentMem;
 
 import java.util.List;
 
+import static ru.job4j.accident.WebInit.APPLICATION_CONTEXT;
+
 @Controller
 public class IndexControl {
     @GetMapping("/")
     public String index(Model model) {
-        List<Accident> accidents = new AccidentMem().getAllAccidents();
+        List<Accident> accidents = APPLICATION_CONTEXT.getBean(AccidentMem.class).getAllAccidents();
         model.addAttribute("accidents", accidents);
         return "index";
     }

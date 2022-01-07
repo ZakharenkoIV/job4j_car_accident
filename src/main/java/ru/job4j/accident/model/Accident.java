@@ -1,10 +1,14 @@
 package ru.job4j.accident.model;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import static ru.job4j.accident.WebInit.APPLICATION_CONTEXT;
+
 @Component
+@Scope("prototype")
 public class Accident {
     private int id;
     private String name;
@@ -63,8 +67,8 @@ public class Accident {
         return Objects.hash(id, name, text, address);
     }
 
-    public Accident of(int id, String name, String text, String address) {
-        Accident accident = new Accident();
+    public static Accident of(int id, String name, String text, String address) {
+        Accident accident = APPLICATION_CONTEXT.getBean(Accident.class);
         accident.setId(id);
         accident.setName(name);
         accident.setText(text);
