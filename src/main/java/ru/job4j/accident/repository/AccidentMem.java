@@ -9,21 +9,21 @@ import java.util.List;
 @Repository
 public class AccidentMem {
 
-    private final HashMap<Integer, Accident> accidents;
+    private final HashMap<Integer, Accident> store;
 
     public AccidentMem() {
-        this.accidents = new HashMap<>();
-        accidents.put(1, Accident.of(
+        store = new HashMap<>();
+        store.put(1, Accident.of(
                 0,
                 "Неправильная парковка",
                 "Машина припаркована на газоне",
                 "г.Москва ул.Русаковского"));
-        accidents.put(2, Accident.of(
+        store.put(2, Accident.of(
                 1,
                 "ДТП",
                 "Машина врезалась в столб",
                 "г.Москва ул.Народного ополчения"));
-        accidents.put(3, Accident.of(
+        store.put(3, Accident.of(
                 2,
                 "ДТП",
                 "Наезд на пешехода",
@@ -31,6 +31,20 @@ public class AccidentMem {
     }
 
     public List<Accident> getAllAccidents() {
-        return accidents.values().stream().toList();
+        return store.values().stream().toList();
+    }
+
+    public void saveAccident(Accident accident) {
+        if (!store.containsValue(accident)) {
+            store.put(store.size(), accident);
+        }
+    }
+
+    private static final class Lazy {
+        private static final AccidentMem INST = new AccidentMem();
+    }
+
+    public static AccidentMem instOf() {
+        return Lazy.INST;
     }
 }

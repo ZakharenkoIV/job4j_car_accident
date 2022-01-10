@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static ru.job4j.accident.WebInit.APPLICATION_CONTEXT;
-
 @Component
 @Scope("prototype")
 public class Accident {
@@ -68,7 +66,7 @@ public class Accident {
     }
 
     public static Accident of(int id, String name, String text, String address) {
-        Accident accident = APPLICATION_CONTEXT.getBean(Accident.class);
+        Accident accident = new Accident();
         accident.setId(id);
         accident.setName(name);
         accident.setText(text);
