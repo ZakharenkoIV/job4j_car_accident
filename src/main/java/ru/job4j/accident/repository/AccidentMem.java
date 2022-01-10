@@ -5,26 +5,29 @@ import ru.job4j.accident.model.Accident;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class AccidentMem {
 
     private final HashMap<Integer, Accident> store;
+    private final AtomicInteger accidentCounter;
 
     public AccidentMem() {
         store = new HashMap<>();
-        store.put(1, Accident.of(
-                0,
+        accidentCounter = new AtomicInteger();
+        store.put(accidentCounter.addAndGet(1), Accident.of(
+                accidentCounter.get(),
                 "Неправильная парковка",
                 "Машина припаркована на газоне",
                 "г.Москва ул.Русаковского"));
-        store.put(2, Accident.of(
-                1,
+        store.put(accidentCounter.addAndGet(1), Accident.of(
+                accidentCounter.get(),
                 "ДТП",
                 "Машина врезалась в столб",
                 "г.Москва ул.Народного ополчения"));
-        store.put(3, Accident.of(
-                2,
+        store.put(accidentCounter.addAndGet(1), Accident.of(
+                accidentCounter.get(),
                 "ДТП",
                 "Наезд на пешехода",
                 "г.Самара ул.Ленина"));
@@ -35,8 +38,15 @@ public class AccidentMem {
     }
 
     public void saveAccident(Accident accident) {
-        if (!store.containsValue(accident)) {
-            store.put(store.size() + 1, accident);
+        if (accident.getId() == 0) {
+            accident.setId(accidentCounter.addAndGet(1));
+            store.put(accidentCounter.get(), accident);
+        } else if (accident.getId() <= store.size()) {
+            store.put(accident.getId(), accident);
         }
+    }
+
+    public Accident findById(int id) {
+        return store.get(id);
     }
 }

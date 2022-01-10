@@ -18,18 +18,18 @@
 
 <h3 class="text-center my-5">Редактировать инцидент</h3>
 <div class="container mt-5">
-    <form action="<c:url value='/update'/>" method='POST'>
+    <form action="<c:url value='save?id=${accident.id}'/>" method='POST'>
         <div class="mb-3">
             <label for="inputName" class="form-label">Название:</label>
-            <input type="text" name="name" class="form-control" id="inputName">
+            <input type="text" name="name" class="form-control" id="inputName" value="${accident.name}">
         </div>
         <div class="mb-3">
             <label for="inputText" class="form-label">Описание:</label>
-            <input type="text" name="text" class="form-control" id="inputText">
+            <input type="text" name="text" class="form-control" id="inputText" value="${accident.text}">
         </div>
         <div class="mb-3">
             <label for="inputAddress" class="form-label">Адрес:</label>
-            <input type="text" name="address" class="form-control" id="inputAddress">
+            <input type="text" name="address" class="form-control" id="inputAddress" value="${accident.address}">
         </div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>

@@ -26,6 +26,7 @@
             <th scope="col">Name</th>
             <th scope="col">Text</th>
             <th scope="col">Address</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -35,6 +36,13 @@
                 <td><c:out value="${accidents.get(i).getName()}"/></td>
                 <td><c:out value="${accidents.get(i).getText()}"/></td>
                 <td><c:out value="${accidents.get(i).getAddress()}"/></td>
+                <td>
+                    <a href="<c:url value='/update?id=${i + 1}'/>">
+                        <button type="button" class="btn btn-success" title="Изменить">
+                            Редактировать
+                        </button>
+                    </a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
