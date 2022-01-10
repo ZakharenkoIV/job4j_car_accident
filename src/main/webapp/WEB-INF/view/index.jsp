@@ -14,9 +14,11 @@
 
     <title>Accident</title>
 </head>
-
 <body>
+
+<h3 class="text-center my-5">Таблица инцидентов</h3>
 <div class="container mt-5">
+    <a href="<c:url value='/create'/>">Добавить инцидент</a>
     <table class="table table-success table-striped">
         <thead>
         <tr>

@@ -8,7 +8,17 @@ import java.util.List;
 
 @Service
 public class AccidentService {
-    public static List<Accident> loadAllAccidents() {
-        return AccidentMem.instOf().getAllAccidents();
+    private final AccidentMem accidentMem;
+
+    public AccidentService(AccidentMem accidentMem) {
+        this.accidentMem = accidentMem;
+    }
+
+    public List<Accident> loadAllAccidents() {
+        return accidentMem.getAllAccidents();
+    }
+
+    public void saveAccident(Accident accident) {
+        accidentMem.saveAccident(accident);
     }
 }

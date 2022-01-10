@@ -36,15 +36,7 @@ public class AccidentMem {
 
     public void saveAccident(Accident accident) {
         if (!store.containsValue(accident)) {
-            store.put(store.size(), accident);
+            store.put(store.size() + 1, accident);
         }
-    }
-
-    private static final class Lazy {
-        private static final AccidentMem INST = new AccidentMem();
-    }
-
-    public static AccidentMem instOf() {
-        return Lazy.INST;
     }
 }
