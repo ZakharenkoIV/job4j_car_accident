@@ -20,6 +20,14 @@
 <div class="container mt-5">
     <form action="<c:url value='/save'/>" method='POST'>
         <div class="mb-3">
+            <label for="inputType" class="form-label">Тип:</label>
+            <select name="type.id" class="form-control" id="inputType">
+                <c:forEach var="type" items="${types}">
+                    <option value="${type.id}">${type.name}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="inputName" class="form-label">Название:</label>
             <input type="text" name="name" class="form-control" id="inputName">
         </div>

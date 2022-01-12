@@ -2,7 +2,9 @@ package ru.job4j.accident.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.model.AccidentType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,43 +12,57 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class AccidentMem {
 
-    private final HashMap<Integer, Accident> store;
+    private final HashMap<Integer, Accident> accidentStore;
+    private final List<AccidentType> accidentTypeStore;
     private final AtomicInteger accidentCounter;
 
     public AccidentMem() {
-        store = new HashMap<>();
+        accidentTypeStore = new ArrayList<>();
+        accidentTypeStore.add(AccidentType.of(0, "Две машины"));
+        accidentTypeStore.add(AccidentType.of(1, "Машина и человек"));
+        accidentTypeStore.add(AccidentType.of(2, "Машина и велосипед"));
         accidentCounter = new AtomicInteger();
-        store.put(accidentCounter.addAndGet(1), Accident.of(
+        accidentStore = new HashMap<>();
+        accidentStore.put(accidentCounter.addAndGet(1), Accident.of(
                 accidentCounter.get(),
                 "Неправильная парковка",
                 "Машина припаркована на газоне",
-                "г.Москва ул.Русаковского"));
-        store.put(accidentCounter.addAndGet(1), Accident.of(
+                "г.Москва ул.Русаковского",
+                accidentTypeStore.get(0)));
+        accidentStore.put(accidentCounter.addAndGet(1), Accident.of(
                 accidentCounter.get(),
                 "ДТП",
                 "Машина врезалась в столб",
-                "г.Москва ул.Народного ополчения"));
-        store.put(accidentCounter.addAndGet(1), Accident.of(
+                "г.Москва ул.Народного ополчения",
+                accidentTypeStore.get(1)));
+        accidentStore.put(accidentCounter.addAndGet(1), Accident.of(
                 accidentCounter.get(),
                 "ДТП",
                 "Наезд на пешехода",
-                "г.Самара ул.Ленина"));
+                "г.Самара ул.Ленина",
+                accidentTypeStore.get(2)));
     }
 
     public List<Accident> getAllAccidents() {
-        return store.values().stream().toList();
+        return accidentStore.values().stream().toList();
     }
 
     public void saveAccident(Accident accident) {
         if (accident.getId() == 0) {
             accident.setId(accidentCounter.addAndGet(1));
-            store.put(accidentCounter.get(), accident);
-        } else if (accident.getId() <= store.size()) {
-            store.put(accident.getId(), accident);
+            accident.setType(accidentTypeStore.get(accident.getType().getId()));
+            accidentStore.put(accidentCounter.get(), accident);
+        } else if (accident.getId() <= accidentStore.size()) {
+            accident.setType(accidentTypeStore.get(accident.getType().getId()));
+            accidentStore.put(accident.getId(), accident);
         }
     }
 
     public Accident findById(int id) {
-        return store.get(id);
+        return accidentStore.get(id);
+    }
+
+    public List<AccidentType> getAllAccidentTypes() {
+        return accidentTypeStore;
     }
 }

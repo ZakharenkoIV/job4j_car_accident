@@ -12,6 +12,7 @@ public class Accident {
     private String name;
     private String text;
     private String address;
+    private AccidentType type;
 
     public int getId() {
         return id;
@@ -19,6 +20,14 @@ public class Accident {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public AccidentType getType() {
+        return type;
+    }
+
+    public void setType(AccidentType type) {
+        this.type = type;
     }
 
     public String getName() {
@@ -65,12 +74,13 @@ public class Accident {
         return Objects.hash(id, name, text, address);
     }
 
-    public static Accident of(int id, String name, String text, String address) {
+    public static Accident of(int id, String name, String text, String address, AccidentType type) {
         Accident accident = new Accident();
         accident.setId(id);
         accident.setName(name);
         accident.setText(text);
         accident.setAddress(address);
+        accident.setType(type);
         return accident;
     }
 }
