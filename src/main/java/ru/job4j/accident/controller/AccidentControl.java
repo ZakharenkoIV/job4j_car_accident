@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.service.AccidentService;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AccidentControl {
@@ -22,23 +22,25 @@ public class AccidentControl {
 
     @GetMapping("/create")
     public String create(Model model) {
-        List<AccidentType> types = accidentService.getAccidentTypes();
-        model.addAttribute("types", types);
+        model.addAttribute("types", accidentService.getAccidentTypes());
+        model.addAttribute("rules", accidentService.getAccidentRules());
         return "accident/create";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Accident accident) {
+    public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
+        for (String id : req.getParameterValues("rIds")) {
+            accident.addRule(Rule.of(Integer.parseInt(id)));
+        }
         accidentService.saveAccident(accident);
         return "redirect:/";
     }
 
     @GetMapping("/update")
     public String update(@RequestParam("id") int id, Model model) {
-        Accident accident = accidentService.findById(id);
-        model.addAttribute("accident", accident);
-        List<AccidentType> types = accidentService.getAccidentTypes();
-        model.addAttribute("types", types);
+        model.addAttribute("accident", accidentService.findById(id));
+        model.addAttribute("types", accidentService.getAccidentTypes());
+        model.addAttribute("rules", accidentService.getAccidentRules());
         return "accident/edit";
     }
 }

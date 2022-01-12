@@ -36,6 +36,14 @@
             <input type="text" name="text" class="form-control" id="inputText">
         </div>
         <div class="mb-3">
+            <label for="inputRules" class="form-label">Статьи:</label>
+            <select name="rIds" class="form-control" id="inputRules" multiple>
+                <c:forEach var="rule" items="${rules}">
+                    <option value="${rule.id}">${rule.name}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="inputAddress" class="form-label">Адрес:</label>
             <input type="text" name="address" class="form-control" id="inputAddress">
         </div>

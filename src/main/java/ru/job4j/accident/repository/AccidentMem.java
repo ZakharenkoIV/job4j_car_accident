@@ -3,10 +3,9 @@ package ru.job4j.accident.repository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Rule;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
@@ -14,6 +13,7 @@ public class AccidentMem {
 
     private final HashMap<Integer, Accident> accidentStore;
     private final List<AccidentType> accidentTypeStore;
+    private final List<Rule> accidentRuleStore;
     private final AtomicInteger accidentCounter;
 
     public AccidentMem() {
@@ -21,6 +21,10 @@ public class AccidentMem {
         accidentTypeStore.add(AccidentType.of(0, "Две машины"));
         accidentTypeStore.add(AccidentType.of(1, "Машина и человек"));
         accidentTypeStore.add(AccidentType.of(2, "Машина и велосипед"));
+        accidentRuleStore = new ArrayList<>();
+        accidentRuleStore.add(Rule.of(0, "Статья. 1"));
+        accidentRuleStore.add(Rule.of(1, "Статья. 2"));
+        accidentRuleStore.add(Rule.of(2, "Статья. 3"));
         accidentCounter = new AtomicInteger();
         accidentStore = new HashMap<>();
         accidentStore.put(accidentCounter.addAndGet(1), Accident.of(
@@ -51,6 +55,7 @@ public class AccidentMem {
         if (accident.getId() == 0) {
             accident.setId(accidentCounter.addAndGet(1));
             accident.setType(accidentTypeStore.get(accident.getType().getId()));
+            accident.setRules(loadAccidentRulesByRulesId(accident.getRules()));
             accidentStore.put(accidentCounter.get(), accident);
         } else if (accident.getId() <= accidentStore.size()) {
             accident.setType(accidentTypeStore.get(accident.getType().getId()));
@@ -64,5 +69,17 @@ public class AccidentMem {
 
     public List<AccidentType> getAllAccidentTypes() {
         return accidentTypeStore;
+    }
+
+    public List<Rule> getAllAccidentRules() {
+        return accidentRuleStore;
+    }
+
+    private Set<Rule> loadAccidentRulesByRulesId(Set<Rule> preRules) {
+        Set<Rule> resultRules = new HashSet<>();
+        for (Rule preRule : preRules) {
+            resultRules.add(accidentRuleStore.get(preRule.getId()));
+        }
+        return resultRules;
     }
 }

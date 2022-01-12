@@ -3,7 +3,9 @@ package ru.job4j.accident.model;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Component
 @Scope("prototype")
@@ -13,6 +15,11 @@ public class Accident {
     private String text;
     private String address;
     private AccidentType type;
+    private Set<Rule> rules;
+
+    public Accident() {
+        rules = new HashSet<>();
+    }
 
     public int getId() {
         return id;
@@ -28,6 +35,18 @@ public class Accident {
 
     public void setType(AccidentType type) {
         this.type = type;
+    }
+
+    public Set<Rule> getRules() {
+        return rules;
+    }
+
+    public void setRules(Set<Rule> rules) {
+        this.rules = rules;
+    }
+
+    public void addRule(Rule rule) {
+        rules.add(rule);
     }
 
     public String getName() {

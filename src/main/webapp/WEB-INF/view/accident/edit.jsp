@@ -38,6 +38,18 @@
             <input type="text" name="text" class="form-control" id="inputText" value="${accident.text}">
         </div>
         <div class="mb-3">
+            <label for="inputRules" class="form-label">Тип:</label>
+            <select name="rIds" class="form-control" id="inputRules" multiple>
+                <c:forEach var="rule" items="${rules}">
+                    <option value="${rule.id}"
+                            <c:forEach var="aRule" items="${accident.rules}">
+                                <c:if test="${rule.id == aRule.id}"> selected="selected" </c:if>
+                            </c:forEach>
+                    >${rule.name}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="inputAddress" class="form-label">Адрес:</label>
             <input type="text" name="address" class="form-control" id="inputAddress" value="${accident.address}">
         </div>
