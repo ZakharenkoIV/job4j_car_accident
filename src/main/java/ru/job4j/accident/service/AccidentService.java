@@ -20,7 +20,12 @@ public class AccidentService {
         return accidentMem.getAllAccidents();
     }
 
-    public void saveAccident(Accident accident) {
+    public void saveAccident(Accident accident, String[] rIds) {
+        if (rIds != null) {
+            for (String id : rIds) {
+                accident.addRule(Rule.of(Integer.parseInt(id)));
+            }
+        }
         accidentMem.saveAccident(accident);
     }
 

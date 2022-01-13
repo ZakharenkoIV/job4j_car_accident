@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.service.AccidentService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +28,7 @@ public class AccidentControl {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
-        String[] rIds = req.getParameterValues("rIds");
-        if (rIds != null) {
-            for (String id : rIds) {
-                accident.addRule(Rule.of(Integer.parseInt(id)));
-            }
-        }
-        accidentService.saveAccident(accident);
+        accidentService.saveAccident(accident, req.getParameterValues("rIds"));
         return "redirect:/";
     }
 
