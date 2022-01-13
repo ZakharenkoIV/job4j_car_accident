@@ -12,19 +12,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AccidentMem {
 
     private final HashMap<Integer, Accident> accidentStore;
-    private final List<AccidentType> accidentTypeStore;
-    private final List<Rule> accidentRuleStore;
+    private final HashMap<Integer, AccidentType> accidentTypeStore;
+    private final HashMap<Integer, Rule> accidentRuleStore;
     private final AtomicInteger accidentCounter;
 
     public AccidentMem() {
-        accidentTypeStore = new ArrayList<>();
-        accidentTypeStore.add(AccidentType.of(0, "Две машины"));
-        accidentTypeStore.add(AccidentType.of(1, "Машина и человек"));
-        accidentTypeStore.add(AccidentType.of(2, "Машина и велосипед"));
-        accidentRuleStore = new ArrayList<>();
-        accidentRuleStore.add(Rule.of(0, "Статья. 1"));
-        accidentRuleStore.add(Rule.of(1, "Статья. 2"));
-        accidentRuleStore.add(Rule.of(2, "Статья. 3"));
+        accidentTypeStore = new HashMap<>();
+        accidentTypeStore.put(0, AccidentType.of(0, "Две машины"));
+        accidentTypeStore.put(1, AccidentType.of(1, "Машина и человек"));
+        accidentTypeStore.put(2, AccidentType.of(2, "Машина и велосипед"));
+        accidentRuleStore = new HashMap<>();
+        accidentRuleStore.put(0, Rule.of(0, "Статья. 1"));
+        accidentRuleStore.put(1, Rule.of(1, "Статья. 2"));
+        accidentRuleStore.put(2, Rule.of(2, "Статья. 3"));
         accidentCounter = new AtomicInteger();
         accidentStore = new HashMap<>();
         accidentStore.put(accidentCounter.addAndGet(1), Accident.of(
@@ -68,11 +68,11 @@ public class AccidentMem {
     }
 
     public List<AccidentType> getAllAccidentTypes() {
-        return accidentTypeStore;
+        return accidentTypeStore.values().stream().toList();
     }
 
     public List<Rule> getAllAccidentRules() {
-        return accidentRuleStore;
+        return accidentRuleStore.values().stream().toList();
     }
 
     private Set<Rule> loadAccidentRulesByRulesId(Set<Rule> preRules) {
