@@ -38,7 +38,7 @@
             <input type="text" name="text" class="form-control" id="inputText" value="${accident.text}">
         </div>
         <div class="mb-3">
-            <label for="inputRules" class="form-label">Тип:</label>
+            <label for="inputRules" class="form-label">Статьи:</label>
             <select name="rIds" class="form-control" id="inputRules" multiple>
                 <c:forEach var="rule" items="${rules}">
                     <option value="${rule.id}"

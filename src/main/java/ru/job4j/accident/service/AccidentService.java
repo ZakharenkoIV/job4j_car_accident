@@ -4,20 +4,20 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.repository.AccidentJdbcTemplate;
 
 import java.util.List;
 
 @Service
 public class AccidentService {
-    private final AccidentMem accidentMem;
+    private final AccidentJdbcTemplate accidentStore;
 
-    public AccidentService(AccidentMem accidentMem) {
-        this.accidentMem = accidentMem;
+    public AccidentService(AccidentJdbcTemplate accidentStore) {
+        this.accidentStore = accidentStore;
     }
 
     public List<Accident> loadAllAccidents() {
-        return accidentMem.getAllAccidents();
+        return accidentStore.getAllAccidents();
     }
 
     public void saveAccident(Accident accident, String[] rIds) {
@@ -26,18 +26,18 @@ public class AccidentService {
                 accident.addRule(Rule.of(Integer.parseInt(id)));
             }
         }
-        accidentMem.saveAccident(accident);
+        accidentStore.saveAccident(accident);
     }
 
     public Accident findById(int id) {
-        return accidentMem.findById(id);
+        return accidentStore.findAccidentById(id);
     }
 
     public List<AccidentType> getAccidentTypes() {
-        return accidentMem.getAllAccidentTypes();
+        return accidentStore.getAllAccidentTypes();
     }
 
     public List<Rule> getAccidentRules() {
-        return accidentMem.getAllAccidentRules();
+        return accidentStore.getAllAccidentRules();
     }
 }
