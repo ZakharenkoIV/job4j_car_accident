@@ -1,6 +1,5 @@
 package ru.job4j.accident.service;
 
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.accident.model.Accident;
@@ -10,7 +9,6 @@ import ru.job4j.accident.repository.AccidentRepository;
 import ru.job4j.accident.repository.AccidentTypeRepository;
 import ru.job4j.accident.repository.RuleRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,9 +27,7 @@ public class AccidentService {
     }
 
     public List<Accident> loadAllAccidents() {
-        List<Accident> res = new ArrayList<>();
-        accidentStore.findAll().forEach(res::add);
-        return res;
+        return accidentStore.getAllAccidents();
     }
 
     public void saveAccident(Accident accident, String[] rIds) {
@@ -44,22 +40,14 @@ public class AccidentService {
     }
 
     public Accident findById(int id) {
-        Accident accident = accidentStore.findById(id).orElse(null);
-        if (accident != null) {
-            Hibernate.initialize(accident.getRules());
-        }
-        return accident;
+        return accidentStore.findAccidentById(id);
     }
 
     public List<AccidentType> getAccidentTypes() {
-        List<AccidentType> res = new ArrayList<>();
-        accidentTypeStore.findAll().forEach(res::add);
-        return res;
+        return accidentTypeStore.getAllAccidentTypes();
     }
 
     public List<Rule> getAccidentRules() {
-        List<Rule> res = new ArrayList<>();
-        ruleStore.findAll().forEach(res::add);
-        return res;
+        return ruleStore.getAllRules();
     }
 }
