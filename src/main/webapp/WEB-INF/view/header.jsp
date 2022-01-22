@@ -7,15 +7,13 @@
     <c:if test="${authUser != null}">
         <div class="mx-3">
             ${authUser}
-            |
-            <a href="<c:url value="/exit"/>">Выход</a>
         </div>
     </c:if>
     <c:if test="${authUser == null}">
         <div class="mx-3">
             <a href="<c:url value="/login"/>">Вход</a>
             или
-            <a href="<c:url value="/reg.jsp"/>">Регистрация</a>
+            <a href="<c:url value="/reg"/>">Регистрация</a>
         </div>
     </c:if>
 </header>

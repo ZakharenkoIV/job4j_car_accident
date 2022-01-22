@@ -4,11 +4,25 @@ CREATE TABLE rule
     name varchar(2000) not null
 );
 
+insert into rule (name)
+values ('Статья. 1');
+insert into rule (name)
+values ('Статья. 2');
+insert into rule (name)
+values ('Статья. 3');
+
 CREATE TABLE accident_types
 (
     id   serial primary key,
     name varchar(2000) not null
 );
+
+insert into accident_types (name)
+values ('Две машины');
+insert into accident_types (name)
+values ('Машина и человек');
+insert into accident_types (name)
+values ('Машина и велосипед');
 
 CREATE TABLE accident
 (
@@ -30,3 +44,4 @@ CREATE UNIQUE INDEX "UI_rule_to_accident_accident_id_rule_id"
     ON "rule_to_accident"
         USING btree
         ("rule_id", "accident_id");
+
