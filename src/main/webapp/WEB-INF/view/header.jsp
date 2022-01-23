@@ -7,6 +7,8 @@
     <c:if test="${authUser != null}">
         <div class="mx-3">
             ${authUser}
+            |
+            <a href="<c:url value="/logout"/>">Выход</a>
         </div>
     </c:if>
     <c:if test="${authUser == null}">

@@ -1,11 +1,13 @@
 package ru.job4j.accident.controller;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.User;
 import ru.job4j.accident.repository.AuthorityRepository;
 import ru.job4j.accident.repository.UserRepository;
@@ -38,4 +40,12 @@ public class RegControl {
     public String regPage() {
         return "reg";
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public String handleMyAppTechnicalException(Model model) {
+        model.addAttribute("errorMessage",
+                "Пользователь с таким именем уже существует");
+        return "reg";
+    }
 }
+
